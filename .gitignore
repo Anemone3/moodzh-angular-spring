@@ -7,6 +7,7 @@ tmp/
 coverage/
 npm-debug.log*
 yarn-error.log*
+.zed
 
 # ⚡ Spring Boot / Java
 .project

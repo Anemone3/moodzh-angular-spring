@@ -1,0 +1,18 @@
+spring:
+    application:
+        name=moodzh-api
+    profiles:
+        active: dev
+
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:koko_storage}
+        username:${DB_USER:kokonut}
+        password:${DB_PASSWORD:baqua}
+    jpa:
+        hibernate:
+            ddl-auto=update
+        properties:
+            hibernate:
+                format_sql=true
+                show_sql=true

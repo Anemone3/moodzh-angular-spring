@@ -9,6 +9,8 @@ npm-debug.log*
 yarn-error.log*
 
 # ⚡ Spring Boot / Java
+.project
+.factorypath
 target/
 build/
 .mvn/

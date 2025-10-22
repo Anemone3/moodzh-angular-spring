@@ -1,0 +1,32 @@
+# ⚡ Node / Angular
+node_modules/
+dist/
+.angular/
+out-tsc/
+tmp/
+coverage/
+npm-debug.log*
+yarn-error.log*
+
+# ⚡ Spring Boot / Java
+target/
+build/
+.mvn/
+*.log
+package-lock.json
+# ⚡ Entornos y configuración
+.env
+.env.local
+.env.*.local
+
+# ⚡ IDEs
+.vscode/
+.idea/
+*.iml
+
+# ⚡ TurboRepo
+.turbo/
+
+# ⚡ Sistema
+.DS_Store
+Thumbs.db

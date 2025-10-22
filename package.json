@@ -1,0 +1,32 @@
+{
+  "name": "kokoimages-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "npm@11.4.1",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "frontend": "turbo run dev --filter=client",
+    "backend": "turbo run dev --filter=api",
+    "co": "cz"
+  },
+  "dependencies": {
+    "turbo": "^2.5.8"
+  },
+  "devDependencies": {
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^7.5.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-customizable"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

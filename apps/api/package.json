@@ -1,0 +1,8 @@
+{
+    "name": "api",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "mvn spring-boot:run -Dspring-boot.run.profiles=dev",
+        "build": "mvn clean package"
+    }
+}

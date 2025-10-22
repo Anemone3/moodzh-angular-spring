@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #16161a;
+  --color-headline: #fffffe;
+  --color-secondary: #72757e;
+  --color-button-text: #fffffe;
+  --color-button-secondary: #0e172c;
+  --color-stroke: #010101;
+  --color-paragraph: #94a1b2;
+  --color-button: #7f5af0;
+  --color-tertiary: #2cb67d;
+
+  --font-syne: 'Syne', sans-serif;
+  --font-work-sans: 'Work Sans', sans-serif;
+}
+
+body {
+  background-color: var(--color-primary);
+  color: var(--color-headline);
+}

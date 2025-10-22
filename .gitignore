@@ -11,6 +11,8 @@ yarn-error.log*
 # ⚡ Spring Boot / Java
 .project
 .factorypath
+.settings
+.classpath
 target/
 build/
 .mvn/

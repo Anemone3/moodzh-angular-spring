@@ -34,14 +34,18 @@ public class Images {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(nullable = false, length = 20)
+    private String title;
 
-    @Column(name="image_url", nullable = false)
+    @Column(nullable = true)
+    private String description;
+
+    @Column(name = "image_url", nullable = false)
     private String url;
 
     @Column(name = "tags", columnDefinition = "TEXT")
     @Convert(converter = StringSetConverter.class)
-    private Set<String> tags = new HashSet<>();
-
+    private final Set<String> tags = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

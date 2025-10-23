@@ -39,18 +39,17 @@ public class Collections {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "name",nullable= false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description", nullable = true)
     private String description;
 
-    @Column(name = "is_private",nullable= false, columnDefinition = "boolean default false")
-    private Boolean isPrivate = Boolean.FALSE;
+    @Column(name = "is_private", nullable = false, columnDefinition = "boolean default false")
+    private final Boolean isPrivate = Boolean.FALSE;
 
-
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
-    private Set<PostCollections> postCollections = new HashSet<>();
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private final Set<PostCollections> postCollections = new HashSet<>();
 
     @CreatedDate
     @Column(name = "created_at")

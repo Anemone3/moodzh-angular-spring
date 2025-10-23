@@ -1,6 +1,5 @@
 package api.kokonut.moodzh.data.model;
 
-
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -32,17 +31,18 @@ import jakarta.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false,length = 20, unique = true)
+    @Column(nullable = false, length = 20, unique = true)
     private String username;
 
-    @Column(nullable = false,length = 100)
+    @Column(nullable = false, length = 100)
     private String password;
 
+    @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean isActive = Boolean.TRUE;
 
@@ -52,24 +52,23 @@ public class User{
     @Embedded
     private LinkSocial socialLinks;
 
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Images> images = new HashSet<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Favorites> favorites = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private final Set<Images> images = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Collections> collections = new HashSet<>();
+    private final Set<Favorites> favorites = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Comments> comments = new HashSet<>();
+    private final Set<Collections> collections = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private final Set<Comments> comments = new HashSet<>();
 
     @OneToMany(mappedBy = "emisor", fetch = FetchType.LAZY)
-    private Set<Notification> sentNotifications = new HashSet<>();
+    private final Set<Notification> sentNotifications = new HashSet<>();
 
     @OneToMany(mappedBy = "receptor", fetch = FetchType.LAZY)
-    private Set<Notification> receivedNotifications = new HashSet<>();
+    private final Set<Notification> receivedNotifications = new HashSet<>();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

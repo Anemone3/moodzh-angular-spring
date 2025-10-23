@@ -25,51 +25,49 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Post{
+public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Aun podemos manejar el userId aqui, por ejemplo al subir una imagen automaticamente generamos
-    // el post, y esto ayudaria a obtener datos de esta tabla sin necesidad de transaccionar
+    // Aun podemos manejar el userId aqui, por ejemplo al subir una imagen
+    // automaticamente generamos
+    // el post, y esto ayudaria a obtener datos de esta tabla sin necesidad de
+    // transaccionar
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String slug;
-
-    @Column(nullable = false)
-    private String title;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type", nullable = false)
     private ContentType contentType;
 
-    @Column(name= "content_id",nullable = false,length = 36)
+    @Column(name = "content_id", nullable = false, length = 36)
     private String contentId;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Favorites> likedBy = new HashSet<>();
+    private final Set<Favorites> likedBy = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<PostCollections> postCollections = new HashSet<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private final Set<PostCollections> postCollections = new HashSet<>();
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    private Set<Notification> postNotifications = new HashSet<>();
+    private final Set<Notification> postNotifications = new HashSet<>();
 
-    @Column(name = "favorites_count", nullable = false)
+    @Builder.Default
+    @Column(name = "favorites_count", nullable = false, columnDefinition = "default 0")
     private int favoritesCount = 0;
-
+    @Builder.Default
     @Column(name = "visualizaciones_count", nullable = false)
     private int visualizacionesCount = 0;
-
+    @Builder.Default
     @Column(name = "downloads_count", nullable = false)
     private int downloadsCount = 0;
-
+    @Builder.Default
     @Column(name = "collected_count", nullable = false)
     private int collectedCount = 0;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
-
-
 
 }

@@ -31,7 +31,7 @@ public class Notification {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "emisor_id" , nullable = true)
+    @JoinColumn(name = "emisor_id", nullable = true)
     private User emisor;
 
     @ManyToOne
@@ -42,11 +42,12 @@ public class Notification {
     @Column(name = "type", nullable = false)
     private NotificationType type;
 
+    @Builder.Default
     @Column(name = "is_read", nullable = false, columnDefinition = "boolean default false")
-    private boolean isRead = Boolean.FALSE;
+    private Boolean isRead = Boolean.FALSE;
 
     @ManyToOne
-    @JoinColumn(name = "target_post_id",nullable = true)
+    @JoinColumn(name = "target_post_id", nullable = true)
     private Post post;
 
     @CreationTimestamp

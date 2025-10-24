@@ -1,0 +1,46 @@
+@let profile = avatarUrl();
+@let isOpen = isMenuOpen();
+
+        <div
+          class="w-full h-full border border-[#45474e] rounded-full overflow-clip flex items-center justify-center"
+        >
+          <img
+            [src]="profile"
+            alt="profile-user"
+          />
+        </div>
+        @if(isOpen){
+        <div class="absolute top-4 right-0 z-20 w-40 origin-top-right rounded-md bg-primary shadow-lg ring-1 ring-[#45474e] focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+            <ul class="py-1" role="none">
+                <li role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-stroke cursor-pointer">
+                    Settings
+                </li>
+
+                <li role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-stroke cursor-pointer">
+                    Profile
+                </li>
+
+                <li role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-red-400 hover:bg-stroke cursor-pointer">
+                    Logout
+                </li>
+            </ul>
+        </div>
+        }
+        <button
+          [class]="lgSize"
+          (click)="toggleMenu()"
+          type="button"
+          class="bg-primary cursor-pointer text-[#45474e] absolute z-50 top-0  -right-2 inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap font-medium [&amp;&gt;svg]:shrink-0 border hover:text-secondary [&amp;_svg]:size-5 px-0 rounded-full"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            fill="currentColor"
+            viewBox="0 0 256 256"
+          >
+            <path
+              d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+            ></path>
+          </svg>
+</button>

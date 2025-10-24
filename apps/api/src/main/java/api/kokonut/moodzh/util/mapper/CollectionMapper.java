@@ -18,13 +18,6 @@ public interface CollectionMapper {
     @Mapping(source = "images", target = "images")
     CollectionResponse toResponse(Collections collections, List<ImagesResponse> images);
 
-    // ----------------------------------------------------------------------------------
-    // Mapeo Mínimo: Cuando la lista de imágenes debe ser NULL (para omitirla en el
-    // JSON)
-    // Se usa este método cuando no se quieren cargar las relaciones (ej. listado
-    // rápido).
-    // Se renombra para evitar ambigüedad en MapStruct.
-    // ----------------------------------------------------------------------------------
     @Mapping(source = "collections.user.id", target = "userId")
     @Mapping(source = "collections.user.username", target = "username")
     @Mapping(target = "images", expression = "java(null)")

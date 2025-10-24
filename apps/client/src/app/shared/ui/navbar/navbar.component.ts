@@ -1,11 +1,12 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, HostListener, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AvatarProfileComponent } from '../avatar-profile/avatar-profile.component';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.html',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive,AvatarProfileComponent],
 })
 export class NavbarComponent implements OnInit {
   isOpen = signal<boolean>(false);

@@ -1,10 +1,10 @@
 <nav
-  class="lg:h-16 lg:border-b-2 lg:border-b-stroke w-full top-0 left-0 z-10 bg-primary text-headline"
+  class="lg:h-20 lg:border-b-2 lg:border-b-stroke w-full top-0 left-0 z-10 bg-primary text-headline"
 >
   <div class="h-full w-full flex flex-col lg:flex-row font-syne">
     <div class="flex lg:h-full lg:w-1/2 flex-row w-full">
       <div
-        class="h-16 lg:h-full w-full lg:pr-0 lg:min-w-1/3 lg:border-r lg:border-r-stroke flex items-center justify-between"
+        class="h-20 lg:h-full w-full lg:pr-0 lg:min-w-1/3 lg:border-r lg:border-r-stroke flex items-center justify-between"
       >
         <span class="text-center px-5 text-xl">Moodzh</span>
         <button class="lg:hidden pr-5 relative" (click)="onHandleNavbar()">
@@ -60,7 +60,7 @@
     </div>
 
     <div
-      class="w-full bg-primary border-t-2 border-b-stroke border-t-stroke lg:h-full lg:w-1/2 flex justify-start items-center lg:border-0 lg:justify-end z-20 top-16 left-0 right-0 absolute lg:static lg:border-l lg:border-l-stroke lg:transition-none transition-all duration-300 ease-out lg:max-h-full"
+      class="w-full bg-primary border-t-2 border-b-stroke border-t-stroke lg:h-full lg:w-1/2 flex justify-start items-center lg:border-0 lg:justify-end z-20 top-20 left-0 right-0 absolute lg:static lg:border-l lg:border-l-stroke lg:transition-none transition-all duration-300 ease-out lg:max-h-full"
       [class.max-h-0]="!this.isOpen()"
       [class.border-b-2]="this.isOpen()"
       [class.py-5]="this.isOpen()"
@@ -69,6 +69,7 @@
         class="flex transform flex-col p-5 lg:p-0 lg:flex-row gap-5 lg:items-center lg:justify-end items-start lg:pr-5"
       >
         @if(this.isOpen() || this.isLgScreen()){
+
         <li>
           <a
             class="cursor-pointer"
@@ -86,6 +87,9 @@
             [routerLinkActiveOptions]="{ exact: true }"
             >COLLECTIONS</a
           >
+        </li>
+        <li>
+          <avatar-profile [size]="58"/>
         </li>
         }
       </ul>

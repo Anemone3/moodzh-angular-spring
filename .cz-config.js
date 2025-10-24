@@ -1,4 +1,6 @@
-module.exports = {
+const { definePrompt } = require("cz-git");
+
+module.exports = definePrompt({
   types: [
     { value: "feat", name: "feat:     Nueva funcionalidad" },
     { value: "fix", name: "fix:      Corrección de errores" },
@@ -27,4 +29,4 @@ module.exports = {
   allowBreakingChanges: ["feat", "fix"],
   skipQuestions: ["body", "breaking", "footer"],
   subjectLimit: 100,
-};
+});

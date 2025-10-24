@@ -10,23 +10,23 @@
     "dev": "turbo run dev",
     "frontend": "turbo run dev --filter=client",
     "backend": "turbo run dev --filter=api",
-    "co": "cz"
+    "co": "czg --config=.cz-config.js"
   },
   "dependencies": {
+    "czg": "^1.9.0",
     "turbo": "^2.5.8"
-  },
-  "devDependencies": {
-    "commitizen": "^4.3.1",
-    "cz-conventional-changelog": "^3.3.0",
-    "cz-customizable": "^7.5.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-customizable"
-    }
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-git": "^1.12.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-git"
+    }
+  }
 }

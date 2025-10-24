@@ -2,6 +2,7 @@ package api.kokonut.moodzh.core.strategy.contenttype.impls;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ public class ExternalContentService implements IContentTypeStrategy {
 
     private final ExternalImageRepository externalImageRepository;
     private final ImagesMapper imagesMapper;
+    private final Executor dbExecutor;
 
     @Override
     public List<ImagesResponse> getImagesFromCore(List<Post> post) {
@@ -29,10 +31,13 @@ public class ExternalContentService implements IContentTypeStrategy {
 
     @Override
     public CompletableFuture<ImagesResponse> getOneImageFromCore(Post post) {
-        var image = externalImageRepository.findByExternalId(post.getContentId());
-        if (!image.isPresent()) {
-            return null;
-        }
-        return null;
+
+        return CompletableFuture.supplyAsync(() -> {
+            var image = externalImageRepository.findByExternalId(post.getContentId());
+            if (!image.isPresent()) {
+                return null;
+            }
+            return imagesMapper.toResponse(image.get(), 0, 0);
+        }, dbExecutor);
     }
 }

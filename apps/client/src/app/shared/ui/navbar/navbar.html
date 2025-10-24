@@ -69,25 +69,18 @@
         class="flex transform flex-col p-5 lg:p-0 lg:flex-row gap-5 lg:items-center lg:justify-end items-start lg:pr-5"
       >
         @if(this.isOpen() || this.isLgScreen()){
+        @for(item of menuItems;track $index){
+        <li>
+          <a
+            class="cursor-pointer"
+            [routerLink]="item.route"
+            routerLinkActive="border-gray-300 border-b-2"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >{{ item.label | uppercase }}</a
+          >
+        </li>
+        }
 
-        <li>
-          <a
-            class="cursor-pointer"
-            routerLink="/"
-            routerLinkActive="border-gray-300 border-b-2"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >HOME</a
-          >
-        </li>
-        <li>
-          <a
-            class="cursor-pointer"
-            routerLink="/profile"
-            routerLinkActive="border-gray-300 border-b-2"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >COLLECTIONS</a
-          >
-        </li>
         <li>
           <avatar-profile [size]="58"/>
         </li>

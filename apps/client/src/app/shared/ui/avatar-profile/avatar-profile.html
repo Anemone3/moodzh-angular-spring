@@ -1,5 +1,6 @@
 @let profile = avatarUrl();
 @let isOpen = isMenuOpen();
+@let direction = directionMenu();
 
         <div
           class="w-full h-full border border-[#45474e] rounded-full overflow-clip flex items-center justify-center"
@@ -10,19 +11,21 @@
           />
         </div>
         @if(isOpen){
-        <div class="absolute top-4 right-0 z-20 w-40 origin-top-right rounded-md bg-primary shadow-lg ring-1 ring-[#45474e] focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+        <div [class]="direction == 'left' ? 'right-0' : 'left-17'" class="absolute top-4  z-20 w-40 origin-top-right rounded-md bg-primary shadow-lg ring-1 ring-[#45474e] focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
             <ul class="py-1" role="none">
-                <li role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-stroke cursor-pointer">
-                    Settings
+              @for(item of menuList; track $index){
+                @if(item.label.toLowerCase()== "logout"){
+                <li (click)="actionHandler($index)" role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-red-400 hover:bg-stroke cursor-pointer">
+                    {{item.label}}
                 </li>
+                }@else{
+                <li  (click)="actionHandler($index)" role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-stroke cursor-pointer">
+                    {{item.label}}
+                </li>
+                }
 
-                <li role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-stroke cursor-pointer">
-                    Profile
-                </li>
+              }
 
-                <li role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-red-400 hover:bg-stroke cursor-pointer">
-                    Logout
-                </li>
             </ul>
         </div>
         }
@@ -30,7 +33,7 @@
           [class]="lgSize"
           (click)="toggleMenu()"
           type="button"
-          class="bg-primary cursor-pointer text-[#45474e] absolute z-50 top-0  -right-2 inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap font-medium [&amp;&gt;svg]:shrink-0 border hover:text-secondary [&amp;_svg]:size-5 px-0 rounded-full"
+          class="bg-primary cursor-pointer text-[#45474e] absolute z-50 top-0 -right-2   inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap font-medium [&amp;&gt;svg]:shrink-0 border hover:text-secondary [&amp;_svg]:size-5 px-0 rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

@@ -11,9 +11,11 @@
   --color-paragraph: #94a1b2;
   --color-button: #7f5af0;
   --color-tertiary: #2cb67d;
-
+  --color-button-hover: #9a82f7;
   --font-syne: 'Syne', sans-serif;
   --font-work-sans: 'Work Sans', sans-serif;
+  --color-bg-card: hsl(240 4% 16%);
+  --color-input: hsl(240 5% 26%);
 }
 
 body {

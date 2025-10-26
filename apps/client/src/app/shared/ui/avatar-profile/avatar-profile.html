@@ -15,11 +15,11 @@
             <ul class="py-1" role="none">
               @for(item of menuList; track $index){
                 @if(item.label.toLowerCase()== "logout"){
-                <li (click)="actionHandler($index)" role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-red-400 hover:bg-stroke cursor-pointer">
+                <li (click)="actionHandler($index)" role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-red-400 hover:bg-button cursor-pointer">
                     {{item.label}}
                 </li>
                 }@else{
-                <li  (click)="actionHandler($index)" role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-stroke cursor-pointer">
+                <li  (click)="actionHandler($index)" role="menuitem" tabindex="-1" class="px-4 py-2 text-sm text-gray-200 hover:bg-button cursor-pointer">
                     {{item.label}}
                 </li>
                 }
@@ -33,7 +33,7 @@
           [class]="lgSize"
           (click)="toggleMenu()"
           type="button"
-          class="bg-primary cursor-pointer text-[#45474e] absolute z-50 top-0 -right-2   inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap font-medium [&amp;&gt;svg]:shrink-0 border hover:text-secondary [&amp;_svg]:size-5 px-0 rounded-full"
+          class="bg-primary cursor-pointer text-[#45474e] absolute z-10 top-0 -right-2   inline-flex shrink-0 items-center justify-center gap-1 whitespace-nowrap font-medium [&amp;&gt;svg]:shrink-0 border hover:text-secondary [&amp;_svg]:size-5 px-0 rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

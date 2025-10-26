@@ -1,0 +1,30 @@
+<div class="bg-primary w-full border border-input  rounded relative left-0 top-1/2 transform -translate-y-1/2">
+  <div class="p-4 border-b border-input text-xl font-work-sans"><h2>New Collection</h2></div>
+  <form class="max-w-full ">
+    <div class="flex flex-col gap-5 px-6 py-6 w-full font-syne">
+      <div class="flex flex-col gap-2 w-full">
+        <label>Name</label>
+        <input
+          class="w-full border border-bg-card   focus:border-input text-sm focus:ring-1 focus:ring-button px-3 py-2 placeholder:text-gray-400 outline-none rounded transition-all"
+          type="text"
+          placeholder="Enter collection name" />
+      </div>
+      <div class="flex flex-col gap-2 w-full">
+        <label>Description</label>
+        <textarea  class="w-full h-[114px] py-2 px-3 border border-bg-card text-sm  rounded-md outline-none placeholder:text-gray-400 bg-background focus:border-button" placeholder="Enter collection description"></textarea>
+      </div>
+      <div class="flex flex-row">
+
+        <label class="inline-flex items-center cursor-pointer">
+          <input type="checkbox" value="" class="sr-only peer">
+          <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-transparent dark:peer-focus:ring-transparent rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-button-hover dark:peer-checked:bg-button"></div>
+          <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Make collection private</span>
+        </label>
+      </div>
+    </div>
+    <div class="w-full flex text-sm font-syne items-center flex-row justify-end gap-5 border-t px-6 py-6 border-input">
+      <button type="button" (click)="closeModal()" class="w-20 box-content py-2 border text-center hover:border-button-hover border-input rounded-sm cursor-pointer">Cancel</button>
+      <button type="button" class="w-20 py-2 border box-content  bg-button hover:bg-button-hover text-center border-input rounded-sm cursor-pointer">Save</button>
+    </div>
+  </form>
+</div>

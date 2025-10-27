@@ -1,28 +1,42 @@
 package api.kokonut.moodzh.api.controller.auth;
 
+import api.kokonut.moodzh.api.dto.request.LoginRequest;
+import api.kokonut.moodzh.api.dto.request.RegisterRequest;
+import api.kokonut.moodzh.api.dto.response.TokenResponse;
+import api.kokonut.moodzh.api.dto.response.UserResponse;
+import api.kokonut.moodzh.core.services.auth.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthRESTController {
 
 
-    @GetMapping("/success")
-    public String ok(){
-        return "Success";
+    private final AuthService authService;
+
+    @PostMapping("/register")
+    public ResponseEntity<TokenResponse> registerUser(@RequestBody RegisterRequest registerRequest) {
+        try {
+            return ResponseEntity.ok(authService.register(registerRequest));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-    @GetMapping("/login")
-    public String login(){
-        return "login";
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse req) {
+        return ResponseEntity.ok(authService.authenticateLocalUser(loginRequest,req));
     }
 
     @GetMapping("/ok")

@@ -1,4 +1,4 @@
-package api.kokonut.moodzh.core.security;
+package api.kokonut.moodzh.security;
 
 
 import api.kokonut.moodzh.core.services.user.UserService;

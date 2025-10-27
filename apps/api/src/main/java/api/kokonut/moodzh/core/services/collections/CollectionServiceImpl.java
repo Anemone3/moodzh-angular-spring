@@ -1,8 +1,11 @@
 package api.kokonut.moodzh.core.services.collections;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import api.kokonut.moodzh.api.exceptions.http.ResourceExistsException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CollectionServiceImpl implements CollectionService {
 
 	private final CollectionRepository collectionRepository;
@@ -44,9 +48,8 @@ public class CollectionServiceImpl implements CollectionService {
 			/* regresamos un array vacio */
 			return List.of();
 		}
-		return collectionsUser.stream().map(collection -> {
-			return getCollectionWithImages(collection);
-		}).toList();
+		log.info("Get collections by user id: {}", userId);
+		return collectionsUser.stream().map(this::getCollectionWithImages).toList();
 	}
 
 	@Override
@@ -60,12 +63,12 @@ public class CollectionServiceImpl implements CollectionService {
 	public CollectionResponse createCollection(CollectionRequest request, String userId) {
 		var collectionsUser = collectionRepository.findByUserId(userId);
 		String collectionRequestName = request.name();
-		Boolean nameAlreadyExistsInUserCollections = !collectionsUser.stream()
-				.anyMatch(collection -> collection.getName().equals(collectionRequestName));
+		boolean nameAlreadyExistsInUserCollections = collectionsUser.stream()
+				.noneMatch(collection -> collection.getName().equals(collectionRequestName));
 
 		if (nameAlreadyExistsInUserCollections) {
 			/* Crear una excepcion de nombre ya existente */
-			throw new RuntimeException("Ya existe una colección con ese nombre");
+			throw new ResourceExistsException("Ya existe una colección con ese nombre");
 		}
 
 		var currentUser = userRepository.getReferenceById(userId);
@@ -75,6 +78,8 @@ public class CollectionServiceImpl implements CollectionService {
 				.description(request.description().isEmpty() ? null : request.description())
 				.user(currentUser)
 				.build();
+
+		log.info("Create new collection: {}", newCollection);
 
 		try {
 			var collections = collectionRepository.save(newCollection);
@@ -126,7 +131,7 @@ public class CollectionServiceImpl implements CollectionService {
 		CompletableFuture.allOf(futureImages.toArray(CompletableFuture[]::new)).join();
 		List<ImagesResponse> images = futureImages.stream()
 				.map(CompletableFuture::join) // extrae el resultado cuando ya esta completo
-				// .filter(Objects::nonNull) // para evitar nulos
+				.filter(Objects::nonNull) // para evitar nulos
 				.toList();
 
 		return collectionMapper.toResponse(newCollection, images);

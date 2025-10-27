@@ -1,18 +1,45 @@
+
 spring:
+    mvc:
+      servlet:
+          path: /api
     application:
-        name=moodzh-api
+        name: moodzh-api
     profiles:
         active: dev
 
     datasource:
         driver-class-name: org.postgresql.Driver
-        url:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:koko_storage}
-        username:${DB_USER:kokonut}
-        password:${DB_PASSWORD:baqua}
+        url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:koko_storage}
+        username: ${DB_USER:kokonut}
+        password: ${DB_PASSWORD:baqua}
     jpa:
         hibernate:
-            ddl-auto=update
+            ddl-auto: update
         properties:
             hibernate:
-                format_sql=true
-                show_sql=true
+                format_sql: true
+                show_sql: true
+    security:
+      oauth2:
+        client:
+            registration:
+              google:
+                  client-id: 207879777381-8q9vr7ohipngrq3dbdf38h4vtnudkjd5.apps.googleusercontent.com
+                  client-secret: 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
+                  redirect-uri: "{baseUrl}/api/login/oauth2/code/{registrationId}"
+                  scope:
+                    - openid
+                    - email
+                    - profile
+            provider:
+              google:
+                issuer-uri: https://accounts.google.com
+logging:
+    level:
+        org.springframework.security.oauth2: DEBUG
+        org.springframework.security: DEBUG
+        api.kokonut.moodzh.core.security: DEBUG
+        api.kokonut.moodzh.core.strategy: DEBUG
+server:
+  port: 8080

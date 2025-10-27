@@ -4,4 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import api.kokonut.moodzh.data.model.User;
 
-public interface UserRepository extends JpaRepository<User,String>{}
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User,String>{
+    Optional<User> findByEmail(String email);
+}

@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import api.kokonut.moodzh.data.enums.ProviderAuth;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,17 +13,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import api.kokonut.moodzh.data.embeddable.LinkSocial;
 import api.kokonut.moodzh.data.embeddable.LocationUser;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -36,15 +27,28 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(nullable = false, length = 20, unique = true)
+    @Column(nullable = false, length = 20)
     private String username;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false,length = 100,unique = true)
+    private String email;
+
+
+    @Column(nullable = true, length = 100)
     private String password;
 
     @Builder.Default
     @Column(nullable = false, columnDefinition = "boolean default true")
     private Boolean isActive = Boolean.TRUE;
+
+    @Column(name = "profile_url")
+    private String profilePicture;
+
+    private String providerId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProviderAuth provider;
 
     @Embedded
     private LocationUser location;

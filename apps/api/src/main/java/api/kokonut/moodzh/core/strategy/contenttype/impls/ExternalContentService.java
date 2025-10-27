@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import api.kokonut.moodzh.api.dto.response.ImagesResponse;
@@ -19,6 +20,7 @@ public class ExternalContentService implements IContentTypeStrategy {
 
     private final ExternalImageRepository externalImageRepository;
     private final ImagesMapper imagesMapper;
+    @Qualifier("dbTaskExecutor")
     private final Executor dbExecutor;
 
     @Override
@@ -34,10 +36,7 @@ public class ExternalContentService implements IContentTypeStrategy {
 
         return CompletableFuture.supplyAsync(() -> {
             var image = externalImageRepository.findByExternalId(post.getContentId());
-            if (!image.isPresent()) {
-                return null;
-            }
-            return imagesMapper.toResponse(image.get(), 0, 0);
+            return image.map(externalImages -> imagesMapper.toResponse(externalImages, 0, 0)).orElse(null);
         }, dbExecutor);
     }
 }

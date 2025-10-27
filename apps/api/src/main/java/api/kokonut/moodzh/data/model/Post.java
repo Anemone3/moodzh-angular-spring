@@ -55,16 +55,16 @@ public class Post {
     private final Set<Notification> postNotifications = new HashSet<>();
 
     @Builder.Default
-    @Column(name = "favorites_count", nullable = false, columnDefinition = "default 0")
+    @Column(name = "favorites_count", nullable = false, columnDefinition = "integer default 0")
     private int favoritesCount = 0;
     @Builder.Default
-    @Column(name = "visualizaciones_count", nullable = false)
+    @Column(name = "visualizaciones_count", nullable = false,columnDefinition = "integer default 0")
     private int visualizacionesCount = 0;
     @Builder.Default
-    @Column(name = "downloads_count", nullable = false)
+    @Column(name = "downloads_count", nullable = false,columnDefinition = "integer default 0")
     private int downloadsCount = 0;
     @Builder.Default
-    @Column(name = "collected_count", nullable = false)
+    @Column(name = "collected_count", nullable = false,columnDefinition = "integer default 0")
     private int collectedCount = 0;
 
     @Column(name = "created_at", nullable = false)

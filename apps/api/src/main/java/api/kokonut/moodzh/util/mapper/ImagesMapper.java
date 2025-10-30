@@ -2,13 +2,12 @@ package api.kokonut.moodzh.util.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 
 import api.kokonut.moodzh.api.dto.response.ImagesResponse;
 import api.kokonut.moodzh.data.model.ExternalImages;
 import api.kokonut.moodzh.data.model.Images;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { AuthorDTOMapper.class })
+@Mapper(componentModel = "spring", uses = { AuthorDTOMapper.class })
 public interface ImagesMapper {
 
     @Mapping(source = "images.user", target = "author")

@@ -8,11 +8,13 @@ import { NavbarComponent } from '@shared/ui/navbar/navbar.component';
   templateUrl: './app.html',
 })
 export class App implements OnInit {
+  isAuth = false;
+
   private router = inject(Router);
-  private hiddenNavbarRoutes: string[] = [ '^/settings(/.*)?$'];
+  private hiddenNavbarRoutes: string[] = ['^/auth(/.*)?$', '^/settings(/.*)?$'];
   private currentRoute = signal<string>(this.router.url);
   showNavbar = computed(() => {
-    return !this.hiddenNavbarRoutes.some(route=> this.currentRoute().match(route));
+    return !this.hiddenNavbarRoutes.some((route) => this.currentRoute().match(route));
   });
   ngOnInit(): void {
     this.router.events.subscribe((event) => {

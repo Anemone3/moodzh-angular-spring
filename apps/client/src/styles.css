@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Syne:wght@400..800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
 @theme {
+  --color-background: #121113;
   --color-primary: #16161a;
   --color-headline: #fffffe;
   --color-secondary: #72757e;
@@ -9,16 +10,19 @@
   --color-button-secondary: #0e172c;
   --color-stroke: #010101;
   --color-paragraph: #94a1b2;
+  --color-border: #49474e;
+  --color-text-placeholder: #7c7a85;
   --color-button: #7f5af0;
   --color-tertiary: #2cb67d;
   --color-button-hover: #9a82f7;
   --font-syne: 'Syne', sans-serif;
   --font-work-sans: 'Work Sans', sans-serif;
+  --font-roboto-mono: 'Roboto Mono', sans-serif;
   --color-bg-card: hsl(240 4% 16%);
   --color-input: hsl(240 5% 26%);
 }
 
 body {
-  background-color: var(--color-primary);
+  background-color: var(--color-background);
   color: var(--color-headline);
 }

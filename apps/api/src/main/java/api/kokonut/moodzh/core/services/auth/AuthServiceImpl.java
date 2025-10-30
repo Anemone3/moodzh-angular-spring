@@ -5,6 +5,7 @@ import api.kokonut.moodzh.api.dto.request.RegisterRequest;
 import api.kokonut.moodzh.api.dto.response.TokenResponse;
 import api.kokonut.moodzh.api.dto.response.UserResponse;
 import api.kokonut.moodzh.api.exceptions.auth.AuthUserExists;
+import api.kokonut.moodzh.api.exceptions.http.ResourceNotFoundException;
 import api.kokonut.moodzh.data.enums.ProviderAuth;
 import api.kokonut.moodzh.data.model.User;
 import api.kokonut.moodzh.data.repository.UserRepository;
@@ -13,9 +14,20 @@ import api.kokonut.moodzh.security.UserPrincipal;
 import api.kokonut.moodzh.util.ApplicationProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
+
+import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,8 +41,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
-    //TODO: falta el refreshToken, esto retorna resfreshTOken null
-
+    // TODO: falta el refreshToken, esto retorna resfreshTOken null
 
     @Override
     public TokenResponse register(RegisterRequest request) {
@@ -54,33 +65,24 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userPrincipal,
                 null,
-                userPrincipal.getAuthorities()
-        );
+                userPrincipal.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return tokenProvider.generateToken(userPrincipal,properties.getExpiredToken());
-//
-//        return UserResponse.builder()
-//                .id(persistedUser.getId())
-//                .username(persistedUser.getUsername())
-//                .profile(persistedUser.getProfilePicture())
-//                .token(token)
-//                .build();
+        return tokenProvider.generateToken(userPrincipal, properties.getExpiredToken());
     }
 
     @Override
     public TokenResponse authenticateLocalUser(LoginRequest request, HttpServletResponse response) {
-        // usamos el authenticationManager para que BCrypt se encargue de manejar la passowrd desecodearla
+        // usamos el authenticationManager para que BCrypt se encargue de manejar la
+        // passowrd desecodearla
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
-                        request.password()
-                )
-        );
+                        request.password()));
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 
-        return tokenProvider.generateToken(principal,properties.getExpiredToken());
+        return tokenProvider.generateToken(principal, properties.getExpiredToken());
     }
 
     @Override
@@ -95,8 +97,34 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponse getUser(String accessToken, HttpServletResponse response) {
-        return null;
+    public UserResponse getCurrentUser(@AuthenticationPrincipal UserPrincipal principal) {
+        Optional<User> userExists = userRepository.findByEmail(principal.getEmail());
+        if (!userExists.isEmpty()) {
+            User user = userExists.get();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy HH:mm:ss")
+                    .withZone(ZoneId.systemDefault());
+            Instant createtAt = user.getCreatedAt();
+            Instant updatedAt = user.getUpdatedAt();
+
+            String formatedcreatetAt = formatter.format(createtAt);
+            String formatedupdated = formatter.format(updatedAt);
+
+            return UserResponse.builder()
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .email(user.getEmail())
+                    .profile(user.getProfilePicture())
+                    .linkSocial(user.getSocialLinks())
+                    .location(user.getLocation())
+                    .providerId(user.getProviderId())
+                    .provider(user.getProvider().name())
+                    .createdAt(createtAt.toString())
+                    .lastUpdated(updatedAt.toString())
+                    .build();
+        }
+
+        throw new ResourceNotFoundException("Hubo un problema en la authenticacion, no se encontró el usuario");
     }
 
     @Override

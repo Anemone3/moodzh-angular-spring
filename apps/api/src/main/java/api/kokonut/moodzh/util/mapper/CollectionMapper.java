@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 
 import api.kokonut.moodzh.api.dto.response.CollectionResponse;
 import api.kokonut.moodzh.api.dto.response.ImagesResponse;
 import api.kokonut.moodzh.data.model.Collections;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = { ImagesMapper.class })
+@Mapper(componentModel = "spring", uses = { ImagesMapper.class })
 public interface CollectionMapper {
 
     @Mapping(source = "collections.user.id", target = "userId")

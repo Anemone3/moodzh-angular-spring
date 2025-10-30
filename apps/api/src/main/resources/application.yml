@@ -1,46 +1,46 @@
 spring:
-    mvc:
-      servlet:
-          path: /api
-    application:
-        name: moodzh-api
-    profiles:
-        active: dev
+  mvc:
+    servlet:
+      path: /api
+  application:
+    name: moodzh-api
+  profiles:
+    active: dev
 
-    datasource:
-        driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:koko_storage}
-        username: ${DB_USER:kokonut}
-        password: ${DB_PASSWORD:baqua}
-    jpa:
-        hibernate:
-            ddl-auto: update
-        properties:
-            hibernate:
-                format_sql: true
-                show_sql: true
-    security:
-      oauth2:
-        client:
-            registration:
-              google:
-                  client-id: 207879777381-8q9vr7ohipngrq3dbdf38h4vtnudkjd5.apps.googleusercontent.com
-                  client-secret: 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
-                  redirect-uri: "{baseUrl}/api/login/oauth2/code/{registrationId}"
-                  scope:
-                    - openid
-                    - email
-                    - profile
-            provider:
-              google:
-                issuer-uri: https://accounts.google.com
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:koko_storage}
+    username: ${DB_USER:kokonut}
+    password: ${DB_PASSWORD:baqua}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 207879777381-8q9vr7ohipngrq3dbdf38h4vtnudkjd5.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "{baseUrl}/api/oauth2/callback/{registrationId}"
+            scope:
+              - openid
+              - email
+              - profile
+        provider:
+          google:
+            issuer-uri: https://accounts.google.com
 logging:
-    level:
-        org.springframework.security.oauth2: DEBUG
-        org.springframework.security: DEBUG
-        api.kokonut.moodzh.security: DEBUG
-        api.kokonut.moodzh.core.strategy: DEBUG
-        api.kokonut.moodzh.api: DEBUG
+  level:
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security: DEBUG
+    api.kokonut.moodzh.security: DEBUG
+    api.kokonut.moodzh.core.strategy: DEBUG
+    api.kokonut.moodzh.api: DEBUG
 server:
   port: 8080
 app:
@@ -48,4 +48,4 @@ app:
   expiredToken: 900
   expiredRefreshToken: 1000000
   authorizedRedirectUris:
-    - http://localhost:3000/oauth2/redirect
+    - http://localhost:4200/auth/failure

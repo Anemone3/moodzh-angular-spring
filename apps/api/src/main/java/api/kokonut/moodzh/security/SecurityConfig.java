@@ -30,6 +30,8 @@ public class SecurityConfig {
 
     private final CustomOidcUserService oidcUserService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final OAuth2AuthenticationSuccess oAuth2AuthenticationSuccess;
+    private final OAuth2AuthenticationFailure oAuth2AuthenticationFailure;
 
     // con este bean se encarga de verificar la informacion de los usuarios que se
     // logearan
@@ -43,6 +45,11 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CookieOAuthAuthorizationRepository cookieAuthorizationRequestRepository() {
+        return new CookieOAuthAuthorizationRepository();
     }
 
     @Bean
@@ -73,7 +80,7 @@ public class SecurityConfig {
         return cors -> cors.configurationSource(req -> {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
             corsConfiguration.setAllowCredentials(true);
-            corsConfiguration.addAllowedOrigin("http://localhost:4200");
+            corsConfiguration.addAllowedOrigin("*");
             corsConfiguration.addAllowedMethod("*");
             corsConfiguration.addAllowedHeader("*");
             return corsConfiguration;
@@ -83,19 +90,25 @@ public class SecurityConfig {
     private Customizer<OAuth2LoginConfigurer<HttpSecurity>> getOAuth2LoginConfig() {
         return oauth2 -> oauth2
                 .authorizationEndpoint(authorization -> authorization
-                        .baseUri("/api/oauth2/authorization"))
+                        .baseUri("/api/oauth2/authorization")
+                        .authorizationRequestRepository(cookieAuthorizationRequestRepository()))
                 .redirectionEndpoint(redirection -> redirection
-                        .baseUri("/api/login/oauth2/code/*")) // ni idea
+                        .baseUri("/api/oauth2/callback/*")) // debe estar igual que google console, internamente spring
+                                                        // maneja esta autenticacion de callback y darme un OidcUser
                 .userInfoEndpoint(userinfo -> userinfo.oidcUserService(oidcUserService))
-                .defaultSuccessUrl("/api/auth/ok", true) // backend url que genera el token
-                .failureUrl("/api/auth/login?error"); // failed frontend url
+                .successHandler(oAuth2AuthenticationSuccess) // nuestro custom OAuthSuccess y Failure, para terminos de
+                                                             // seguridad lo que se hace es validar
+                // la request de donde viene, oseas la url y donde se va, es lo unico que se
+                // hace aqui, y generar el token para el redirect con el token mismo
+                .failureHandler(oAuth2AuthenticationFailure);
     }
 
     // manejo de endpoints
     private Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> getAuthorizationManagerRequestMatcherRegistryCustomizer() {
         return req -> req
                 .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                .anyRequest().authenticated();
+                //.requestMatchers("/api/oauth2/authorization/**")
+                .anyRequest().permitAll();
     }
 
 }

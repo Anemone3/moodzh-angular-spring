@@ -1,9 +1,6 @@
 package api.kokonut.moodzh.core.services.user;
 
-import api.kokonut.moodzh.api.dto.request.RegisterRequest;
 import api.kokonut.moodzh.api.dto.request.UserOAuthRequest;
-import api.kokonut.moodzh.api.dto.response.UserResponse;
-import api.kokonut.moodzh.api.exceptions.auth.AuthUserExists;
 import api.kokonut.moodzh.api.exceptions.http.ResourceNotFoundException;
 import api.kokonut.moodzh.core.strategy.oauth.models.AbstractOAuth2UserInfo;
 import api.kokonut.moodzh.data.enums.ProviderAuth;
@@ -13,8 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -22,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User oAuthFindEmailOrCreate(AbstractOAuth2UserInfo userInfo, ProviderAuth providerAuth) {
-        return userRepository.findByEmail(userInfo.getEmail()).orElseGet(()->{
+        return userRepository.findByEmail(userInfo.getEmail()).orElseGet(() -> {
             var newUser = UserOAuthRequest.builder()
                     .email(userInfo.getEmail())
                     .password(null)
@@ -36,12 +31,12 @@ public class UserService {
         });
     }
 
-    public User oAuthFindEmailOrCreate(OidcUser oidcUser,ProviderAuth providerAuth) {
+    public User oAuthFindEmailOrCreate(OidcUser oidcUser, ProviderAuth providerAuth) {
         String name = oidcUser.getAttribute("name");
         String email = oidcUser.getAttribute("email");
         String profileUrl = oidcUser.getAttribute("picture");
         String providerId = oidcUser.getAttribute("sub");
-        return userRepository.findByEmail(email).orElseGet(()-> {
+        return userRepository.findByEmail(email).orElseGet(() -> {
             var newUser = UserOAuthRequest.builder()
                     .username(name)
                     .email(email)
@@ -54,14 +49,11 @@ public class UserService {
         });
     }
 
-
     public User fetchUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("User not found"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
-
-
-    public User createUserFromOAuth(UserOAuthRequest user){
+    public User createUserFromOAuth(UserOAuthRequest user) {
         var newUser = User.builder()
                 .username(user.username())
                 .email(user.email())

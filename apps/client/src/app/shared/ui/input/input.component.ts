@@ -48,7 +48,7 @@ export class InputComponent implements ControlValueAccessor {
   readonly error = signal<boolean>(false); // customError
 
   onChange(event: Event) {
-    console.log('input changed: ', event);
+    //console.log('input changed: ', event);
     const inputElement = event.target as HTMLInputElement;
     this.value.set(inputElement.value);
     this.onChangeFn(inputElement.value);

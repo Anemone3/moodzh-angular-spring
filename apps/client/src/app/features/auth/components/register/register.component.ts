@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { InputComponent } from '@shared/ui/input/input.component';
 
 @Component({
@@ -7,6 +8,8 @@ import { InputComponent } from '@shared/ui/input/input.component';
   imports: [InputComponent],
 })
 export class RegisterComponent {
+
+  location = inject(Location);
 
   profileUrl = signal<string>('');
 
@@ -35,5 +38,10 @@ export class RegisterComponent {
 
   onClearImage() {
     this.profileUrl.set('');
+  }
+
+
+  returnToPreviousRoute() {
+    this.location.back();
   }
 }

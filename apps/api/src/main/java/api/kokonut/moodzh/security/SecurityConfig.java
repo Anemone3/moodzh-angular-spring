@@ -80,9 +80,9 @@ public class SecurityConfig {
         return cors -> cors.configurationSource(req -> {
             CorsConfiguration corsConfiguration = new CorsConfiguration();
             corsConfiguration.setAllowCredentials(true);
-            corsConfiguration.addAllowedOrigin("*");
-            corsConfiguration.addAllowedMethod("*");
+            corsConfiguration.addAllowedOriginPattern("*");
             corsConfiguration.addAllowedHeader("*");
+            corsConfiguration.addAllowedMethod("*");
             return corsConfiguration;
         });
     }

@@ -9,17 +9,21 @@
     <h1 class="font-work-sans text-2xl ">Sign up</h1>
   </div>
   <div class="flex flex-col gap-4 font-roboto-mono">
-    <div class="flex flex-row gap-x-2 w-full">
-      <div class="w-full flex flex-col gap-y-2">
-        <label class="text-sm font-medium ">Username <span class="text-violet-500 text-[10px]">*</span></label>
-        <input-form id="username" placeholder="Your username" class="flex-1" />
-      </div>
-      <div class="w-full flex flex-col gap-y-2">
-        <label class="text-sm font-medium ">Email <span class="text-violet-500 text-[10px]">*</span></label>
-        <input-form id="email" placeholder="example@gmail.com" class="flex-1" />
+    <div class="w-full flex flex-col gap-y-1 min-h-[89px]">
+      <div class="flex flex-row gap-x-2 w-full">
+          <div class="w-full flex flex-col gap-y-2">
+            <label class="text-sm font-medium ">Username <span class="text-violet-500 text-[10px]">*</span></label>
+            <input-form id="username" placeholder="Your username" class="flex-1" />
+          </div>
+          <div class="w-full flex flex-col gap-y-2">
+            <label class="text-sm font-medium ">Email <span class="text-violet-500 text-[10px]">*</span></label>
+            <input-form id="email" placeholder="example@gmail.com" class="flex-1" />
+          </div>
+        </div>
+          <span class="text-xs  text-end text-red-300/90">The password field is required.</span>
       </div>
 
-    </div>
+    
     <div class="flex flex-col gap-y-2 w-full">
       <label class="text-sm font-medium">Avatar</label>
       <div class="flex flex-col sm:flex-row items-start gap-4 w-full">
@@ -52,13 +56,16 @@
           </div>
         </div>
       </div>
+      
     </div>
-    <div class="flex flex-col gap-y-2 w-full">
+    <div class="flex flex-col gap-y-2 w-full min-h-[149px]">
       <label class="text-sm font-medium">Password <span class="text-violet-500 text-[10px]">*</span></label>
       <div class="flex flex-col gap-y-4">
         <input-form id="password" placeholder="*********" />
         <input-form id="password_verify" placeholder="verify password" />
       </div>
+      <span class="text-xs  text-end text-red-300/90">The password field is required.</span>
+
     </div>
 
     <button class="bg-button  font-work-sans hover:bg-button-hover cursor-pointer h-12 rounded-md mt-4" type="button">

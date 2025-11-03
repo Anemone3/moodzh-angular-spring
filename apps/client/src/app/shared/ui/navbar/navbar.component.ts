@@ -15,6 +15,7 @@ interface MenuItem {
 })
 export class NavbarComponent implements OnInit {
   isAuthenticate = input.required<boolean>();
+  user = input<User | null>(null);
   isOpen = signal<boolean>(false);
   isLgScreen = signal<boolean>(false);
   menuItems: MenuItem[] = [

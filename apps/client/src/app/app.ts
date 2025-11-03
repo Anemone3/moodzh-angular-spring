@@ -1,5 +1,6 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed,effect,inject, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { AuthService } from '@core/services/auth/auth.service';
 import { NavbarComponent } from '@shared/ui/navbar/navbar.component';
 
 @Component({
@@ -8,14 +9,29 @@ import { NavbarComponent } from '@shared/ui/navbar/navbar.component';
   templateUrl: './app.html',
 })
 export class App implements OnInit {
-  isAuth = false;
 
+  private authService = inject(AuthService);
+
+  isAuth = this.authService.isAuthenticated;
+  user = this.authService.user;
+  
   private router = inject(Router);
   private hiddenNavbarRoutes: string[] = ['^/auth(/.*)?$', '^/settings(/.*)?$'];
   private currentRoute = signal<string>(this.router.url);
   showNavbar = computed(() => {
     return !this.hiddenNavbarRoutes.some((route) => this.currentRoute().match(route));
   });
+
+
+
+constructor() {
+  effect(() => {
+    console.log(' Usuario cambió:', this.user());
+  });
+}
+
+
+
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -23,5 +39,8 @@ export class App implements OnInit {
         console.log('current router ' + event.urlAfterRedirects);
       }
     });
+
+    console.log(this.authService.user())
+
   }
 }

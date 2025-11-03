@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { InputComponent } from '@shared/ui/input/input.component';
 
 @Component({
@@ -10,8 +11,33 @@ import { InputComponent } from '@shared/ui/input/input.component';
 export class RegisterComponent {
 
   location = inject(Location);
-
   profileUrl = signal<string>('');
+
+  fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    username: ['',[Validators.required,Validators.minLength(4)]],
+    email: ['',[Validators.required,Validators.email]],
+    profile: [this.profileUrl],
+    password: ['',[Validators.required]],
+    confirmPassword: ['',[Validators.required, (control: AbstractControl)=> {
+        const password = control.get('password');
+        const confirmPassword = control.get('confirmPassword');
+
+        return password === confirmPassword ? null : {passwordNotMatch: true} //usar esta propiedad para exponerla en el html
+    }]]
+  })
+ 
+
+
+  onSubmit(){
+
+  }
+
+  private registerAccount(register:RegisterRequest){
+
+  }
+
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;

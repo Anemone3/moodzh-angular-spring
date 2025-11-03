@@ -1,10 +1,8 @@
+import { isPlatformBrowser} from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { computed, inject, Injectable, Signal, signal } from "@angular/core";
+import { computed, inject, Injectable,  PLATFORM_ID, Signal, signal, TransferState } from "@angular/core";
 import { API_URL } from "@configs/tokens";
-import { Observable, tap } from "rxjs";
-
-
-
+import { Observable,tap } from "rxjs";
 
 
 @Injectable({providedIn:'root'})
@@ -22,6 +20,25 @@ export class AuthService{
     public isAuthenticated = computed(() => !!this._user());
 
     
+    private transferState = inject(TransferState);
+    private platformId = inject(PLATFORM_ID);
+
+
+    constructor() {
+        this.init();
+    }
+
+    init(){
+        if(isPlatformBrowser(this.platformId)){
+            this.fetchUser().subscribe({
+                next: (user) =>{
+                    console.log('login with user: ',user)
+                    this._user.set(user) 
+                }
+            })
+        }
+    }
+
     login({ email, password }: LoginRequest): Observable<AccessToken>{
         return this.http.post<AccessToken>(this.apiUrl + "/auth/login", { email, password }, { withCredentials: true }).pipe(
             tap(response => this._accessToken.set(response.access_token))
@@ -29,7 +46,7 @@ export class AuthService{
     }
 
 
-    register({ email, password, profile_url, username, verify_password }: RegiterRequest): Observable<AccessToken>{
+    register({ email, password, profile_url, username, verify_password }: RegisterRequest): Observable<AccessToken>{
         
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if (!emailRegex.test(email)) {
@@ -50,16 +67,35 @@ export class AuthService{
     }
 
 
-    fetchUser(): Observable<User>{
-        return this.http.get<User>(this.apiUrl + '/auth/me', {
-            withCredentials: true,
-            headers: {
-                'Authorization': `Bearer ${this._accessToken()}`
+    fetchUser(): Observable<User> {
+    console.log('fetch user with token ' + this.accessToken());
+
+    return this.http.get<User>(this.apiUrl + '/auth/me', {
+        withCredentials: true,
+        headers: {
+        'Authorization': `Bearer ${this.accessToken()}`
+        }
+    });
+    /*.pipe(
+        tap(user => {
+        if (isPlatformServer(this.platformId)) {
+            this.transferState.set(USER_KEY, user);
+            if (this._accessToken()) {
+            this.transferState.set(ACCESS_TOKEN_KEY, this._accessToken()!);
             }
-         }).pipe(tap(response=> this._user.set(response)));
+        }
+        })
+    );*/
+    }
+
+
+    setToken(token:string){
+        if(!token) return;
+        this._accessToken.set(token);
     }
 
     logout(): void{
+        console.log('deslogeando')
         this._accessToken.set(null);
         this._user.set(null);
         /* Limpiaria las cookies el refreshToken */

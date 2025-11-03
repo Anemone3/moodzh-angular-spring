@@ -1,4 +1,4 @@
 @if(this.showNavbar()){
-<app-navbar [isAuthenticate]="isAuth" />
+<app-navbar [isAuthenticate]="isAuth()" [user]="user()"/>
 }
 <router-outlet />

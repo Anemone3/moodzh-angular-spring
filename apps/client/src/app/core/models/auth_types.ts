@@ -14,7 +14,7 @@ type LoginRequest = {
     password: string;
 }
 
-type RegiterRequest = {
+type RegisterRequest = {
     username: string;
     email: string
     password: string;

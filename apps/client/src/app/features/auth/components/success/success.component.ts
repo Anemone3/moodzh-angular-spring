@@ -17,7 +17,6 @@ export class AuthSuccessComponent implements OnInit {
         if (isPlatformBrowser(this.platformId) && token) {
           console.log('token: ' + token);
           if (token) {
-            // TODO: no se en que momento empezo a el token enviarse por servidor, usar transferState
             this.authService.setToken(token);
             if (this.authService.accessToken()) {
               this.router.navigate(['/'], { replaceUrl: true });

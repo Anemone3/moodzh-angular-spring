@@ -1,9 +1,10 @@
-@let profile = avatarUrl(); @let isOpen = isMenuOpen(); @let direction = directionMenu();
+@let isOpen = isMenuOpen(); 
+@let direction = directionMenu();
 
 <div
   class="w-full h-full border border-[#45474e] rounded-full overflow-clip flex items-center justify-center"
 >
-  <img [src]="profile" alt="profile-user" />
+  <img [src]="profile()" alt="profile-user" />
 </div>
 @if(isOpen){
 <div

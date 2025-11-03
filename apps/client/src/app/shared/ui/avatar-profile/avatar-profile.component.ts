@@ -1,5 +1,6 @@
-import { Component, HostBinding, inject, input, signal } from "@angular/core";
+import { Component, effect, HostBinding, inject, input, signal } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthService } from "@core/services/auth/auth.service";
 
 
 interface AvatarProfileMenuItem {
@@ -14,27 +15,50 @@ interface AvatarProfileMenuItem {
   imports:[],
   styles:[`:host { position: relative; display:block }`]
 })
-export class AvatarProfileComponent  {
+export class AvatarProfileComponent {
 
   private router = inject(Router);
-
+  private authService = inject(AuthService);
   private readonly _size:number = 80;
   protected menuList:AvatarProfileMenuItem[] = [
     { label: 'Profile', icon: 'user'},
     { label: 'Settings', icon: 'settings' },
     { label: 'Logout', icon: 'logout'  }
   ] ;
-  avatarUrl = input<string>("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeCCGpYm2-Wa5cTBlEen4f4b9Qm-g8lsiVejL6CeSDhY3ZQwKe4vgv9lWfgJTH9Cd61vs&usqp=CAU");
+  user = input.required<User|null>();
   isMenuOpen = signal<boolean>(false);
   size = input<number>(this._size);
   directionMenu = input<'left' | 'right'>('left');
-
+  profile = signal<string>('/profile.webp');
   public get lgSize(): string {
     return this.size() == this._size ? 'h-8 w-8' : 'h-6 w-6';
   }
 
   @HostBinding('style.height.px') get hostHeight() { return this.size(); }
   @HostBinding('style.width.px') get hostWidth() { return this.size(); }
+
+
+  constructor() {
+    effect(()=>{
+      const u = this.user();
+      this.updateProfilePicture(u);
+    })
+  }
+  
+
+  private updateProfilePicture(user: User | null) {
+  if (user) {
+    if (user.profile) {
+      this.profile.set(user.profile);
+    } else {
+      this.profile.set(
+        `https://ui-avatars.com/api/?name=${user.username}&background=ddd&color=555&size=128`
+      );
+    }
+  } else {
+    this.profile.set('/profile.webp');
+  }
+}
 
   protected actionHandler(index: number): void {
     const itemSelected:AvatarProfileMenuItem = this.menuList[index]
@@ -49,7 +73,7 @@ export class AvatarProfileComponent  {
         console.log('Settings');
         break;
       case labels[2]:
-
+        this.authService.logout();
         console.log('Logout');
         break;
       default:

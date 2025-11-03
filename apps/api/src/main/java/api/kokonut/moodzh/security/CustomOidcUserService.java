@@ -54,6 +54,7 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         log.info("registration id {}", registrationId);
         OidcUser oidcUser = delegate.loadUser(userRequest);
+        
         //ProviderAuth.valueOf(registrationId)
         User user = userService.oAuthFindEmailOrCreate(oidcUser, ProviderAuth.valueOf(registrationId.toUpperCase()));
         List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");

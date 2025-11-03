@@ -1,3 +1,5 @@
+@let user = this.user();
+
 <nav class="lg:h-20 lg:border-b-2 lg:border-b-stroke w-full top-0 left-0 z-50 bg-background text-headline">
   <div class="h-full w-full flex flex-col lg:flex-row font-syne">
     <div class="flex lg:h-full lg:w-1/2 flex-row w-full">
@@ -45,7 +47,7 @@
             [routerLinkActiveOptions]="{ exact: true }">{{ item.label |
             uppercase }}</a>
         </li>
-        } @if(isAuthenticate() && user()){
+        } @if(isAuthenticate() && user){
         <li class="group">
           <button class="box-border border border-input p-2 cursor-pointer group-hover:border-button">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
@@ -56,7 +58,7 @@
           </button>
         </li>
         <li>
-          <avatar-profile [size]="58" />
+          <avatar-profile [size]="58" [user]="user"/>
         </li>
         }@else {
         <li (click)="onHandleNavbar()">

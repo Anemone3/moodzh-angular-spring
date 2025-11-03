@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const PROFILE_ROUTER: Routes = [
   {
     path: '',
-    pathMatch: 'full',
+    pathMatch:'prefix',
     loadComponent: () =>
       import('./components/images/images.component').then((c) => c.ImagesProfileComponent),
   },
@@ -19,10 +19,6 @@ export const PROFILE_ROUTER: Routes = [
     path: 'followings',
     loadComponent: () =>
       import('./components/following/following.component').then((c) => c.FollowingProfileComponent),
-  },
-  {
-    path: '**',
-    redirectTo: '',
-    pathMatch: 'full',
-  },
+  }
 ];
+

@@ -7,7 +7,7 @@ type User = {
     providerId: string | null;
     provider: string;
     linkSocial: Partial<SocialLinks>;
-    location: Locations
+    location: Partial<Locations>;
     createdAt: string;
     lastUpdated: string;
 }

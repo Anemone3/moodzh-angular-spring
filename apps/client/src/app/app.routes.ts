@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { PROFILE_ROUTER } from './features/profile/profile.router';
 import { AUTH_ROUTES } from '@features/auth/auth.router';
+import { ProfileGuard } from '@core/guards/profile.guard';
+import { ProfileResolver } from '@core/resolvers/profile.resolver';
 
 export const routes: Routes = [
   {
@@ -12,6 +14,14 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/profile/profile.component').then((c) => c.ProfileComponent),
     children: PROFILE_ROUTER,
+    canActivate: [ProfileGuard]
+  },
+  {
+    path: 'profile/:uid',
+    loadComponent: () =>
+      import('./features/profile/profile.component').then((c) => c.ProfileComponent),
+    children: PROFILE_ROUTER,
+    resolve:{user: ProfileResolver}
   },
   {
     path: 'auth',

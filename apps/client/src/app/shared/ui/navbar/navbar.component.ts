@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.isLgScreen.set(window.innerWidth >= 1024);
     }
+
   }
 
   @HostListener('window:resize', ['$event'])
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit {
       }
     }
   }
+
 
   onHandleNavbar() {
     this.isOpen.set(!this.isOpen());

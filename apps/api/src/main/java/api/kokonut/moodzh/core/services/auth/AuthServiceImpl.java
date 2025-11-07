@@ -16,14 +16,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+
 import java.util.Optional;
 
-import javax.management.RuntimeErrorException;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -102,13 +98,12 @@ public class AuthServiceImpl implements AuthService {
         if (!userExists.isEmpty()) {
             User user = userExists.get();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy HH:mm:ss")
-                    .withZone(ZoneId.systemDefault());
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
             Instant createtAt = user.getCreatedAt();
             Instant updatedAt = user.getUpdatedAt();
 
-            String formatedcreatetAt = formatter.format(createtAt);
-            String formatedupdated = formatter.format(updatedAt);
+            //String formatedcreatetAt = formatter.format(createtAt);
+            //String formatedupdated = formatter.format(updatedAt);
 
             return UserResponse.builder()
                     .id(user.getId())

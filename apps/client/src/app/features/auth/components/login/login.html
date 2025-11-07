@@ -14,10 +14,10 @@
       <label class="text-sm font-medium ">Correo <span class="text-violet-500 text-[10px]">*</span></label>
       <input-form id="email" formControlName="email" placeholder="example@gmail.com" />
       @if (form.controls.email.invalid && form.controls.email.touched ) {
-      @if (form.controls.email.errors?.['required']) {
+      @if (form.controls.email.errors?.['required'] ) {
       <span class="text-xs text-end pr-5 text-red-300/90">The email field is required.</span>
       }
-      @if (form.controls.email.errors?.['email']) {
+      @if (form.controls.email.errors?.['strictEmail'] ) {
       <span class="text-xs text-end pr-5 text-red-300/90">Please enter a valid email format.</span>
       }
       }
@@ -29,7 +29,7 @@
       @if (form.controls.password.errors?.['required']) {
       <span class="text-xs text-end pr-5 text-red-300/90">The password field is required.</span>
       }
-      @if (form.controls.password.errors?.['min']) {
+      @if (form.controls.password.errors?.['minlength']) {
       <span class="text-xs text-end pr-5 text-red-300/90">Password must be at least 6 characters.</span>
       }
       }

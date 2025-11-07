@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { InputComponent } from '@shared/ui/input/input.component';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CustomValidators } from '@shared/utils/CustomValidators';
 
 @Component({
   selector: 'auth-login',
@@ -18,12 +19,16 @@ export class LoginComponent {
 
   /*TODO: Agregar validacion de email con regex */
   form = this.fb.group({
-    email: ['', [Validators.email,Validators.required]], 
-    password: ['',[Validators.required,Validators.min(6)]]
+    email: ['', [Validators.email,Validators.required, CustomValidators.strictEmail()]], 
+    password: ['',[Validators.required,Validators.minLength(6)]]
   });
 
   onSubmit() {
-    console.log('submit')
+    if(this.form.invalid){
+      CustomValidators.markAllAsTouched(this.form);
+      return;
+    }
+    
     console.log(this.form);
   }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import api.kokonut.moodzh.core.services.pexel.PexelsApiService;
 import api.kokonut.moodzh.data.model.Images;
 import api.kokonut.moodzh.data.repository.ExternalImageRepository;
 import api.kokonut.moodzh.data.repository.ImageRepository;
@@ -15,6 +16,7 @@ public class ImagesServiceImpl implements ImagesService {
 
     private final ImageRepository imageRepository;
     private final ExternalImageRepository externalImageRepository;
+    private final PexelsApiService pexelsApiService;
 
     @Override
     public void getImages() {

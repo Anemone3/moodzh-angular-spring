@@ -49,3 +49,5 @@ app:
   expiredRefreshToken: 1000000
   authorizedRedirectUris:
     - http://localhost:4200/auth/failure
+apis:
+  pexels_key: ${API_KEY_PEXELS:2Wc90xYoRgJwNtYzRMLtXF7lLXZ22GkTn7gHl2k8pnSAlvVKyGK5FUk7}

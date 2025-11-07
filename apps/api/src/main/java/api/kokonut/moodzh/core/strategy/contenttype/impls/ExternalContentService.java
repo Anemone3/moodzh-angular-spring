@@ -11,7 +11,7 @@ import api.kokonut.moodzh.api.dto.response.ImagesResponse;
 import api.kokonut.moodzh.core.strategy.contenttype.IContentTypeStrategy;
 import api.kokonut.moodzh.data.model.Post;
 import api.kokonut.moodzh.data.repository.ExternalImageRepository;
-import api.kokonut.moodzh.util.mapper.ImagesMapper;
+import api.kokonut.moodzh.util.mapper.ImagesMapperImpl;
 import lombok.AllArgsConstructor;
 
 @Service(IContentTypeStrategy.ContentTypeNames.EXTERNAL)
@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 public class ExternalContentService implements IContentTypeStrategy {
 
     private final ExternalImageRepository externalImageRepository;
-    private final ImagesMapper imagesMapper;
+    private final ImagesMapperImpl imagesMapper;
     @Qualifier("dbTaskExecutor")
     private final Executor dbExecutor;
 

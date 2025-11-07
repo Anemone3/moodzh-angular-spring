@@ -10,21 +10,22 @@ import {
   TransferState,
 } from '@angular/core';
 import { API_URL } from '@configs/tokens';
-import { Observable, tap } from 'rxjs';
+import { catchError, finalize, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _user = signal<User | null>(null);
   private _accessToken = signal<string | null>(null);
-
+ 
   private apiUrl = inject(API_URL);
   private http = inject(HttpClient);
 
   public user: Signal<User | null> = this._user.asReadonly();
   public accessToken: Signal<string | null> = this._accessToken.asReadonly();
-  public isAuthenticated = computed(() => !!this._user());
+  public _loading = signal<boolean>(false);
+  public isAuthenticated = computed<boolean>(() => !!this._user() && !!this.accessToken());
 
-  private transferState = inject(TransferState);
+  //private transferState = inject(TransferState);
   private platformId = inject(PLATFORM_ID);
 
   init() {
@@ -45,26 +46,19 @@ export class AuthService {
         { email, password },
         { withCredentials: true }
       )
-      .pipe(tap((response) => this._accessToken.set(response.access_token)));
+      .pipe(tap((response) => {
+        this._accessToken.set(response.access_token)
+      })
+    );
   }
 
   register({
     email,
     password,
     profile_url,
-    username,
-    verify_password,
+    username
   }: RegisterRequest): Observable<AccessToken> {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(email)) {
-      throw new Error('invalid email');
-    }
 
-    if (password.length !== verify_password.length || password != verify_password) {
-      throw new Error('invalid password');
-    }
-
-    /* verify email, password, image if exists */
     return this.http
       .post<AccessToken>(
         this.apiUrl + '/auth/register',

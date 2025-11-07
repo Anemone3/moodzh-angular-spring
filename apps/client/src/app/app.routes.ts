@@ -3,6 +3,7 @@ import { PROFILE_ROUTER } from './features/profile/profile.router';
 import { AUTH_ROUTES } from '@features/auth/auth.router';
 import { ProfileGuard } from '@core/guards/profile.guard';
 import { ProfileResolver } from '@core/resolvers/profile.resolver';
+import { privateAuthGuard } from '@core/guards/private-auth.guard';
 
 export const routes: Routes = [
   {
@@ -27,5 +28,6 @@ export const routes: Routes = [
     path: 'auth',
     loadComponent: () => import('./features/auth/auth.component').then((c) => c.AuthComponent),
     children: AUTH_ROUTES,
+    canActivate: [privateAuthGuard]
   },
 ];

@@ -18,6 +18,5 @@ type RegisterRequest = {
     username: string;
     email: string
     password: string;
-    verify_password: string;
-    profile_url: string;
+    profile_url: string | null;
 }

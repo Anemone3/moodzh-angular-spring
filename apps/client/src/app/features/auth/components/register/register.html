@@ -8,19 +8,34 @@
     </button>
     <h1 class="font-work-sans text-2xl ">Sign up</h1>
   </div>
-  <div class="flex flex-col gap-4 font-roboto-mono">
+  <form [formGroup]="form"  (ngSubmit)="onSubmit()" class="flex flex-col gap-4 font-roboto-mono">
     <div class="w-full flex flex-col gap-y-1 min-h-[89px]">
       <div class="flex flex-row gap-x-2 w-full">
           <div class="w-full flex flex-col gap-y-2">
             <label class="text-sm font-medium ">Username <span class="text-violet-500 text-[10px]">*</span></label>
-            <input-form id="username" placeholder="Your username" class="flex-1" />
+            <input-form id="username" formControlName="username" placeholder="Your username" class="flex-1" />
           </div>
           <div class="w-full flex flex-col gap-y-2">
             <label class="text-sm font-medium ">Email <span class="text-violet-500 text-[10px]">*</span></label>
-            <input-form id="email" placeholder="example@gmail.com" class="flex-1" />
+            <input-form id="email" formControlName="email" placeholder="example@gmail.com" class="flex-1" />
           </div>
         </div>
-          <span class="text-xs  text-end text-red-300/90">The password field is required.</span>
+        @if (form.controls.username.invalid && form.controls.username.touched || (form.controls.confirmPassword.value == form.controls.password.value && form.controls.password.touched && form.controls.confirmPassword.touched)) {
+            @if (form.controls.username.errors?.['required'] && form.controls.email.errors?.['required'] ) {
+                <span class="text-xs text-end text-red-300/90">The username and email field is required.</span>
+            }@else if (form.controls.username.errors?.['required']) {
+                <span class="text-xs text-end text-red-300/90">The username field is required.</span>
+            }@else if(form.controls.username.errors?.['minlength']){
+                 <span class="text-xs text-end text-red-300/90">Username must be at least 4 characters.</span>             
+            }
+        }@else if(form.controls.email.invalid && form.controls.email.touched  ){
+              @if (form.controls.email.errors?.['required']) {
+              <span class="text-xs text-end text-red-300/90">The email field is required.</span>
+            }
+            @else if ( form.controls.email.errors?.['strictEmail']  ) {
+              <span class="text-xs text-end pr-5 text-red-300/90">Please enter a valid email format.</span>
+            }
+            }
       </div>
 
     
@@ -61,15 +76,35 @@
     <div class="flex flex-col gap-y-2 w-full min-h-[149px]">
       <label class="text-sm font-medium">Password <span class="text-violet-500 text-[10px]">*</span></label>
       <div class="flex flex-col gap-y-4">
-        <input-form id="password" placeholder="*********" />
-        <input-form id="password_verify" placeholder="verify password" />
+        <input-form id="password"  typeInput="password"  formControlName="password" placeholder="*********" />
+        <input-form id="password_verify"  typeInput="password"  formControlName="confirmPassword" placeholder="verify password" />
       </div>
-      <span class="text-xs  text-end text-red-300/90">The password field is required.</span>
-
+      @if(form.controls.password.invalid && form.controls.password.touched || form.controls.confirmPassword.invalid && form.controls.confirmPassword.touched){
+        @if (form.controls.password.errors?.['required'] && form.controls.confirmPassword.errors?.['required']) {
+            <span class="text-xs  text-end text-red-300/90">The password and confirmPassword is required</span>
+           
+          }@else if (form.controls.password.errors?.['required']) {
+            <span class="text-xs  text-end text-red-300/90">The password field is required.</span>
+           
+          }@else if(form.controls.confirmPassword.errors?.['required']){
+         
+             <span class="text-xs  text-end text-red-300/90">Confirm password is required.</span>
+           
+          }@else {
+            @if(form.controls.password.errors?.['minlength']){
+            <span class="text-xs  text-end text-red-300/90">Password must be at least 6 characters.</span>
+           }
+           
+           @if (!form.controls.password.errors?.['required'] && !form.controls.password.errors?.['minlength'] && form.controls.confirmPassword.errors?.['passwordMismatch']) {
+            <span class="text-xs  text-end text-red-300/90">Passwords do not match.</span>
+           }}
+       
+           
+      }
     </div>
 
-    <button class="bg-button  font-work-sans hover:bg-button-hover cursor-pointer h-12 rounded-md mt-4" type="button">
+    <button [class]="{'opacity-70 cursor-not-allowed': isLoading()}" [disabled]="isLoading() || (form.touched && form.invalid)"  type="submit" class="bg-button disabled:opacity-50 disabled:cursor-not-allowed font-work-sans hover:bg-button-hover cursor-pointer h-12 rounded-md mt-4">
       Register your Account
     </button>
-  </div>
+  </form>
 </div>

@@ -24,7 +24,7 @@
     </div>
     <div class="w-full flex flex-col gap-y-2 min-h-[92px]">
       <label class="text-sm font-medium ">Password <span class="text-violet-500 text-[10px]">*</span></label>
-      <input-form id="password" formControlName="password" placeholder="password" />
+      <input-form id="password" typeInput="password" formControlName="password" placeholder="password" />
       @if (form.controls.password.invalid && form.controls.password.touched) {
       @if (form.controls.password.errors?.['required']) {
       <span class="text-xs text-end pr-5 text-red-300/90">The password field is required.</span>
@@ -34,8 +34,8 @@
       }
       }
     </div>
-    <div class="text-end w-full">
-      <span class="antialiased text-sm/5 font-light">Not have any account?
+    <div class="text-end w-full -mb-7 -mt-2">
+      <span class="antialiased text-xs md:text-sm/5 font-light">Not have any account?
         <a routerLink="/auth/sign-up" class="underline text-button-hover">Sign up</a></span>
     </div>
     <div class="my-5 flex items-center gap-4">
@@ -44,7 +44,8 @@
       <hr class="w-full border-border" />
     </div>
 
-    <button (click)="navigateGoogleCallback()" type="button"
+    <div class="w-full h-full flex flex-col gap-y-3 -mt-5">
+      <button (click)="navigateGoogleCallback()" type="button"
       class="w-full h-12 flex flex-row gap-x-13 justify-center items-center  border border-border rounded-sm bg-headline outline-0 cursor-pointer">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 512 512">
         <path fill="#fbbd00"
@@ -66,12 +67,17 @@
           d="M256 120V0C187.62 0 123.333 26.629 74.98 74.98a259.849 259.849 0 0 0-22.158 25.235l86.308 86.308C162.883 146.72 206.376 120 256 120z"
           data-original="#eb4132" />
       </svg>
-      <span class="text-stroke font-work-sans text-lg">Sign in with Google</span>
+      <span class="text-stroke font-work-sans text-sm md:text-lg">Sign in with Google</span>
     </button>
 
 
-    <button type="submit" class="bg-button font-work-sans hover:bg-button-hover cursor-pointer h-12 rounded-md">
-      Login
+    <button [class]="{'opacity-70 cursor-not-allowed': isLoading()}" [disabled]="isLoading() || (this.form.touched && this.form.invalid)" type="submit" class="bg-button disabled:opacity-50 disabled:cursor-not-allowed font-work-sans w-full text-sm md:text-lg hover:bg-button-hover cursor-pointer h-12 rounded-md">
+      @if(isLoading()){
+        <span class="animate-pulse">Cargando...</span> 
+      }@else{
+        Login
+      }
     </button>
+    </div>
   </form>
 </div>

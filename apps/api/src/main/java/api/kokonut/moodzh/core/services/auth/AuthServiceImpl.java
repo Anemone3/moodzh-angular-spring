@@ -1,5 +1,16 @@
 package api.kokonut.moodzh.core.services.auth;
 
+import java.time.Instant;
+import java.util.Optional;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import api.kokonut.moodzh.api.dto.request.LoginRequest;
 import api.kokonut.moodzh.api.dto.request.RegisterRequest;
 import api.kokonut.moodzh.api.dto.response.TokenResponse;
@@ -14,23 +25,6 @@ import api.kokonut.moodzh.security.UserPrincipal;
 import api.kokonut.moodzh.util.ApplicationProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Optional;
-
-import javax.management.RuntimeErrorException;
-
-import org.apache.coyote.BadRequestException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -102,20 +96,21 @@ public class AuthServiceImpl implements AuthService {
         if (!userExists.isEmpty()) {
             User user = userExists.get();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy HH:mm:ss")
-                    .withZone(ZoneId.systemDefault());
+            // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy
+            // HH:mm:ss")
+            // .withZone(ZoneId.systemDefault());
             Instant createtAt = user.getCreatedAt();
             Instant updatedAt = user.getUpdatedAt();
 
-            String formatedcreatetAt = formatter.format(createtAt);
-            String formatedupdated = formatter.format(updatedAt);
+            // String formatedcreatetAt = formatter.format(createtAt);
+            // String formatedupdated = formatter.format(updatedAt);
 
             return UserResponse.builder()
                     .id(user.getId())
                     .username(user.getUsername())
                     .email(user.getEmail())
                     .profile(user.getProfilePicture())
-                    .linkSocial(user.getSocialLinks())
+                    .socialLinks(user.getSocialLinks())
                     .location(user.getLocation())
                     .providerId(user.getProviderId())
                     .provider(user.getProvider().name())

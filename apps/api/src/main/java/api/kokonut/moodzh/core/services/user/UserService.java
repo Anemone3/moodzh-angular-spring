@@ -1,14 +1,18 @@
 package api.kokonut.moodzh.core.services.user;
 
+import java.util.Optional;
+
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.stereotype.Service;
+
 import api.kokonut.moodzh.api.dto.request.UserOAuthRequest;
+import api.kokonut.moodzh.api.dto.response.UserDetailResponse;
 import api.kokonut.moodzh.api.exceptions.http.ResourceNotFoundException;
 import api.kokonut.moodzh.core.strategy.oauth.models.AbstractOAuth2UserInfo;
 import api.kokonut.moodzh.data.enums.ProviderAuth;
 import api.kokonut.moodzh.data.model.User;
 import api.kokonut.moodzh.data.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -49,6 +53,20 @@ public class UserService {
         });
     }
 
+    public User findById(String id) {
+        Optional<User> userFind = userRepository.findById(id);
+        if (userFind.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with id " + id);
+        }
+
+        return userFind.get();
+    }
+
+    // images,collections,following
+    public UserDetailResponse loadUserData(String id) {
+        return null;
+    }
+
     public User fetchUserByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
@@ -66,4 +84,5 @@ public class UserService {
 
         return userRepository.save(newUser);
     }
+
 }

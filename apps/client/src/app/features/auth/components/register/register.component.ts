@@ -1,42 +1,63 @@
 import { Location } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '@core/services/auth/auth.service';
 import { InputComponent } from '@shared/ui/input/input.component';
+import { CustomValidators } from '@shared/utils/CustomValidators';
+import { finalize, switchMap } from 'rxjs';
 
 @Component({
   selector: 'auth-register',
   templateUrl: './register.html',
-  imports: [InputComponent],
+  imports: [InputComponent,ReactiveFormsModule],
 })
 export class RegisterComponent {
 
   location = inject(Location);
+  private readonly authService = inject(AuthService);
   profileUrl = signal<string>('');
-
+  isLoading = this.authService._loading.asReadonly();
   fb = inject(FormBuilder);
 
   form = this.fb.group({
     username: ['',[Validators.required,Validators.minLength(4)]],
-    email: ['',[Validators.required,Validators.email]],
+    email: ['',[Validators.required,CustomValidators.strictEmail()]],
     profile: [this.profileUrl],
-    password: ['',[Validators.required]],
-    confirmPassword: ['',[Validators.required, (control: AbstractControl)=> {
-        const password = control.get('password');
-        const confirmPassword = control.get('confirmPassword');
-
-        return password === confirmPassword ? null : {passwordNotMatch: true} //usar esta propiedad para exponerla en el html
-    }]]
+    password: ['',[Validators.required,Validators.minLength(6)]],
+    confirmPassword: ['',[Validators.required, CustomValidators.validMatchPassword('password')]]
   })
  
 
 
   onSubmit(){
+    console.log(this.form)
+    if(this.form.invalid){
+      CustomValidators.markAllAsTouched(this.form);
+      return;
+    }
 
+
+    const {email,password,profile,username} = this.form.value;
+    this.authService._loading.set(true);
+    if(!email || !password || !profile || !username) return; // ya tiene valores pero para asegurar no enviar nulos
+
+    this.authService.register({email: email,password: password,profile_url: this.profileUrl() || null, username: username}).pipe(
+      switchMap(()=> this.authService.fetchUser()),
+      finalize(()=> this.authService._loading.set(false))
+    ).subscribe({
+      next: (data) =>{
+        console.log('register')
+        /* TODO: mas adelante podemos mostrar un toast para enviar un correo de verificacion */
+        console.log(data)
+      },
+      error: (err) =>{
+        console.error("bad request en register");
+        console.log(err)
+      }
+    })
+    
   }
 
-  private registerAccount(register:RegisterRequest){
-
-  }
 
 
   onFileSelected(event: Event) {

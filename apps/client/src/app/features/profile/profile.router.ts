@@ -15,10 +15,10 @@ export const PROFILE_ROUTER: Routes = [
         (c) => c.CollectionsProfileComponent
       ),
   },
-  {
-    path: 'followings',
-    loadComponent: () =>
-      import('./components/following/following.component').then((c) => c.FollowingProfileComponent),
-  }
+  // {
+  //   path: 'followings',
+  //   loadComponent: () =>
+  //     import('./components/following/following.component').then((c) => c.FollowingProfileComponent),
+  // }
 ];
 

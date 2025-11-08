@@ -16,6 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     (blur)="onTouchedFn()"
     (input)="onChange($event)"
     [class]="heightStyle()"
+    [type]="typeInput()"
     class="bg-none font-roboto-mono focus:ring-1 tracking-wide focus:ring-button border text-[1rem] border-border placeholder:text-text-placeholder rounded-md min-w-10 px-3 color-[#eeeef0] outline-0 relative  w-full"
   />`,
   host: {
@@ -41,6 +42,7 @@ export class InputComponent implements ControlValueAccessor {
   readonly isDisabled = computed(() => this.disabled() || this.formDisabled());
 
   readonly value = model<string>('');
+  readonly typeInput = model<'text' | 'password' | 'email' | 'file' | 'search' | 'url'>('text');
 
   readonly id = input<string>('');
   heightStyle = input<string>('h-10');

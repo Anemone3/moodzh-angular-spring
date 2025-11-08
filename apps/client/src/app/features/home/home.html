@@ -1,13 +1,11 @@
 <main>
-  <h1>Moodzh</h1>
-  <p>Images from external resources, made in with angular 20</p>
-
-  <div>
-    <input class="p-3 border" type="search" placeholder="search" />
+  <!-- user images -->
+  <div *isAuthenticate>
+    <h1 class="text-2xl">My images</h1>
+    <card-images-list/>
   </div>
-
   <!-- Images -->
   <div>
-    <h2>LATEST IMAGES:</h2>
+    <h2 class="text-2xl">External Images</h2>
   </div>
 </main>

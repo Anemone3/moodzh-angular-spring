@@ -26,6 +26,22 @@ import api.kokonut.moodzh.util.ApplicationProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+<<<<<<< HEAD
+=======
+import java.time.Instant;
+
+import java.util.Optional;
+
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+>>>>>>> c89c24f851212723bc45ff0d8456d34e2aaf678a
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -96,6 +112,7 @@ public class AuthServiceImpl implements AuthService {
         if (!userExists.isEmpty()) {
             User user = userExists.get();
 
+<<<<<<< HEAD
             // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy
             // HH:mm:ss")
             // .withZone(ZoneId.systemDefault());
@@ -104,6 +121,14 @@ public class AuthServiceImpl implements AuthService {
 
             // String formatedcreatetAt = formatter.format(createtAt);
             // String formatedupdated = formatter.format(updatedAt);
+=======
+            //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd-MM-yyyy HH:mm:ss").withZone(ZoneId.systemDefault());
+            Instant createtAt = user.getCreatedAt();
+            Instant updatedAt = user.getUpdatedAt();
+
+            //String formatedcreatetAt = formatter.format(createtAt);
+            //String formatedupdated = formatter.format(updatedAt);
+>>>>>>> c89c24f851212723bc45ff0d8456d34e2aaf678a
 
             return UserResponse.builder()
                     .id(user.getId())
